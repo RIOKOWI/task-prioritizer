@@ -22,3 +22,10 @@ class HebbianPrioritizer:
         st.session_state.hebbian_weights[task_idx, time_idx] += update_val
         
         st.session_state.hebbian_weights = np.clip(st.session_state.hebbian_weights, 0, 10)
+
+    def get_recommendation(self, task_idx):
+        weights = st.session_state.hebbian_weights[task_idx]
+        if np.all(weights == 0):
+            return None, 0
+        best_time_idx = np.argmax(weights)
+        return self.time_slots[best_time_idx], weights[best_time_idx]
