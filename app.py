@@ -29,3 +29,20 @@ class HebbianPrioritizer:
             return None, 0
         best_time_idx = np.argmax(weights)
         return self.time_slots[best_time_idx], weights[best_time_idx]
+
+
+        
+
+st.set_page_config(page_title="Hebbian Task Optimizer", layout="wide")
+
+TASKS = ["Coding", "Exercise", "Washing", "Research"]
+TIMES = ["Pagi (05-12)", "Siang (12-15)", "Sore (15-18)", "Malam (18-21)"]
+
+model = HebbianPrioritizer(TASKS, TIMES)
+
+st.title("Hebbian Task Optimizer")
+st.write("Sistem memperkuat hubungan antara **Jenis Tugas** dan **Waktu Penyelesaian Terbaik** Anda.")
+
+st.sidebar.header("Log Aktivitas")
+selected_task = st.sidebar.selectbox("Tugas yang baru selesai:", TASKS)
+selected_time = st.sidebar.selectbox("Dikerjakan pada waktu:", TIMES)
