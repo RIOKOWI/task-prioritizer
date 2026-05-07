@@ -1,62 +1,59 @@
-# Hebbian Task Optimizer
+# Hebbian Task Prioritizer System
 
-A Streamlit-based application that learns user productivity patterns by strengthening the relationship between task types and optimal time slots using a simplified Hebbian Learning approach.
+Sistem Task Prioritizer berbasis **Hebbian Learning** menggunakan Python dan Streamlit.
 
----
+Aplikasi ini belajar dari pola aktivitas pengguna berdasarkan:
 
-## Overview
+- Jenis tugas
+- Waktu pengerjaan
+- Durasi fokus
 
-This project simulates a basic learning system that tracks how efficiently tasks are completed at different times of the day.
-
-The system reinforces patterns where:
-- a specific task is performed
-- at a specific time
-- with good performance
-
-Over time, it recommends the most effective time slot for each task.
+Semakin sering suatu tugas dilakukan secara fokus pada waktu tertentu, maka hubungan antar neuron (weight) akan semakin kuat.
 
 ---
 
-## How It Works
+# Konsep Dasar
 
-The model uses a simplified version of Hebbian Learning:
+Project ini menggunakan prinsip:
 
-> "Neurons that fire together, wire together"
+> "Neuron that fires together wires together"
 
-In this implementation:
-- Task = input
-- Time slot = paired input
-- Performance score = reinforcement signal
+Artinya:
+Jika suatu tugas sering dilakukan secara fokus pada waktu tertentu, maka sistem akan menganggap waktu tersebut cocok untuk tugas tersebut.
 
-Each time the user logs an activity:
-1. The system applies **weight decay** (to allow adaptation)
-2. Updates the weight for the selected task–time pair
-3. Strengthens or weakens the relationship based on performance
+Contoh:
 
-The system then:
-- selects the highest weight per task
-- recommends it as the optimal time
+- Coding sering dilakukan malam hari dengan fokus tinggi
+- Maka bobot hubungan `Coding -> Malam` akan meningkat
 
 ---
 
-## Features
-
-- Task activity logging (task + time + performance)
-- Hebbian-style weight updates
-- Adaptive learning with decay
-- Weight matrix visualization (heatmap)
-- Time recommendation per task
-- Reset model functionality
-
----
-
-## Tech Stack
+# Teknologi yang Digunakan
 
 - Python
 - Streamlit
 - NumPy
 - Pandas
 
+---
+
+# Fitur
+
+## 1. Log Aktivitas
+Pengguna dapat mencatat:
+
+- Jenis tugas
+- Waktu pengerjaan
+- Durasi fokus
+
+---
+
+## 2. Hebbian Learning
+Sistem akan memperkuat koneksi berdasarkan:
+
+```python
+weight += learning_rate * activation
+```
 ---
 
 ## Installation
