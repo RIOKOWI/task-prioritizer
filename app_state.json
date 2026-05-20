@@ -1,0 +1,40 @@
+{
+  "tasks": [
+    "Coding",
+    "Senam"
+  ],
+  "weights": [
+    [
+      0.199,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.31000000000000005,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "history": [
+    {
+      "task": "Coding",
+      "time": "Pagi (05-12)",
+      "duration": 60,
+      "energy": 5,
+      "difficulty": 5,
+      "deadline": 5,
+      "timestamp": "2026-05-20 06:30:54"
+    },
+    {
+      "task": "Senam",
+      "time": "Pagi (05-12)",
+      "duration": 120,
+      "energy": 10,
+      "difficulty": 1,
+      "deadline": 10,
+      "timestamp": "2026-05-20 06:31:29"
+    }
+  ]
+}
