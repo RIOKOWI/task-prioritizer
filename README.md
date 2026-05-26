@@ -1,4 +1,4 @@
-# Hybrid SOM + Hebbian Task Prioritizer
+# Kohonen SOM + Hebbian Task Prioritizer
 
 Sistem Task Prioritizer yang menggunakan kombinasi Kohonen Self-Organizing Map (SOM) dan Hebbian Learning untuk mempelajari pola produktivitas pengguna.
 
@@ -24,29 +24,16 @@ Struktur file dalam project ini:
 
 ```
 task-prioritizer/
-|-- .claude/                  # Konfigurasi Claude Code
-|   |-- claude.json
-|
-|-- .git/                     # Git repository (generated)
-|
+|-- app_state.json
 |-- app.py                    # File utama aplikasi Streamlit
 |-- requirements.txt           # Daftar dependencies
 |-- README.md                 # Dokumentasi project
-|-- CLAUDE.md                 # Konfigurasi git untuk Claude
-|-- prompt.md                 # Prompt untuk refactoring
-|-- fix.md                    # Prompt untuk fixing bug
-|
-|-- app1.py                   # File backup/versi lama
-|-- detail.py                 # File detail/refensi
-|-- kohonen_hebbian.py        # File referensi versi lama
 ```
 
 ### Penjelasan Struktur
 
 - `app.py` - File utama yang berisi seluruh logika aplikasi, termasuk class HybridBrain, fungsi UI Streamlit, dan state management
 - `requirements.txt` - Mendefinisikan library Python yang dibutuhkan
-- `.claude/` - Folder konfigurasi untuk Claude Code (author git, permissions)
-- File backup (`app1.py`, `detail.py`, `kohonen_hebbian.py`) - Disimpan sebagai referensi versi sebelumnya
 
 ---
 
@@ -67,8 +54,6 @@ task-prioritizer/
 | scikit-learn | Preprocessing data (MinMaxScaler) |
 | minisom | Implementasi Kohonen Self-Organizing Map |
 | matplotlib | Visualisasi grafik SOM Grid |
-| json | State persistence ke file |
-| os | Operasi file system |
 
 ---
 
@@ -111,7 +96,7 @@ Aplikasi akan terbuka di browser pada URL default `http://localhost:8501`.
 ┌─────────────────────────────────────────────────────────────┐
 │                    USER INTERFACE (Streamlit)               │
 ├─────────────────────────────────────────────────────────────┤
-│                                                              │
+│                                                             │
 │  1. Tambah Task ──> Input nama task ──> Validasi            │
 │                          │                                  │
 │                          v                                  │
@@ -119,22 +104,22 @@ Aplikasi akan terbuka di browser pada URL default `http://localhost:8501`.
 │                        difficulty, deadline, durasi         │
 │                          │                                  │
 │                          v                                  │
-│  3. Simpan Aktivitas ──> Trigger Hebbian Learning          │
+│  3. Simpan Aktivitas ──> Trigger Hebbian Learning           │
 │                          │                                  │
 │                          v                                  │
 │  ┌───────────────────────────────────────────────────┐      │
 │  │              HYBRID BRAIN CLASS                   │      │
-│  │                                                    │      │
-│  │  ┌──────────────────┐  ┌──────────────────────┐  │      │
-│  │  │ Hebbian Learning  │  │  SOM Clustering      │  │      │
-│  │  │                  │  │                      │  │      │
-│  │  │ - Input: features│  │ - Input: history     │  │      │
-│  │  │ - Output: weight │  │ - Output: clusters    │  │      │
-│  │  │   matrix update  │  │   + SOM grid         │  │      │
-│  │  │                  │  │                      │  │      │
-│  │  │ Formula:         │  │  MiniSOM 5x5 grid     │  │      │
-│  │  │ w += lr * x * y  │  │  dengan U-Matrix      │  │      │
-│  │  └──────────────────┘  └──────────────────────┘  │      │
+│  │                                                   │      │
+│  │  ┌──────────────────┐  ┌──────────────────────┐   │      │
+│  │  │ Hebbian Learning │  │  SOM Clustering      │   │      │
+│  │  │                  │  │                      │   │      │
+│  │  │ - Input: features│  │ - Input: history     │   │      │
+│  │  │ - Output: weight │  │ - Output: clusters   │   │      │
+│  │  │   matrix update  │  │   + SOM grid         │   │      │
+│  │  │                  │  │                      │   │      │
+│  │  │ Formula:         │  │  MiniSOM 5x5 grid    │   │      │
+│  │  │ w += lr * x * y  │  │  dengan U-Matrix     │   │      │
+│  │  └──────────────────┘  └──────────────────────┘   │      │
 │  └───────────────────────────────────────────────────┘      │
 │                          │                                  │
 │                          v                                  │
@@ -142,12 +127,12 @@ Aplikasi akan terbuka di browser pada URL default `http://localhost:8501`.
 │                          │                                  │
 │                          v                                  │
 │  5. Dashboard Display ──> Tampilkan:                        │
-│     - Weight Matrix                                      │
-│     - Rekomendasi Waktu                                   │
-│     - SOM Grid Visualization                              │
-│     - Cluster Interpretation                              │
-│     - Histori Aktivitas                                   │
-│                                                              │
+│     - Weight Matrix                                         │
+│     - Rekomendasi Waktu                                     │
+│     - SOM Grid Visualization                                │
+│     - Cluster Interpretation                                │
+│     - Histori Aktivitas                                     │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -242,14 +227,6 @@ Aplikasi menggunakan 4 time slots:
 
 ## File Konfigurasi
 
-### CLAUDE.md
-Konfigurasi git author untuk Claude Code:
-- Author: RIOKOWI
-- Email: achyarrio2004@gmail.com
-
-### .claude/claude.json
-Permissions untuk operasi git dan bash commands.
-
 ### .gitignore
 File yang diabaikan git:
 - `__pycache__/`
@@ -272,7 +249,3 @@ Pastikan class HybridBrain didefinisikan sebelum session state initialization. L
 Cek apakah file `app_state.json` ada di direktori project. Jika tidak ada, berarti ada masalah dengan permission write.
 
 ---
-
-## Lisensi
-
-Project ini adalah open source dan bebas digunakan.
