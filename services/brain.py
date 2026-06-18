@@ -545,12 +545,10 @@ def plot_som_grid(som, X_scaled, labels, clusters_df, color_by="task", title="SO
 
     ax.legend(loc='upper left', bbox_to_anchor=(1.05, 1))
     ax.set_title(title)
-    ax.set_xlabel("SOM X (Column)")
-    ax.set_ylabel("SOM Y (Row)")
+    ax.set_xlabel("SOM Column (X)")
+    ax.set_ylabel("SOM Row (Y)")
     ax.set_xlim(0, grid_size)
-    ax.set_ylim(0, grid_size)
-    ax.set_aspect('equal')
-    ax.invert_yaxis()  # Supaya row 0 di atas
+    ax.set_ylim(grid_size, 0)  # Row 0 di atas, row 4 di bawah
     plt.colorbar(im, ax=ax, label="Jarak (U-Matrix)")
 
     return fig
