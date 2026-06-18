@@ -1,0 +1,366 @@
+{
+  "tasks": [
+    "Coding",
+    "Meeting",
+    "Documentation",
+    "Code Review",
+    "Research",
+    "Testing",
+    "Design",
+    "Planning",
+    "Learning",
+    "Bug Fixing",
+    "Deployment",
+    "Communication",
+    "Admin Tasks",
+    "Data Analysis",
+    "Writing"
+  ],
+  "time_weights": [
+    [
+      0.29440000000000005,
+      0.0,
+      0.0,
+      0.23
+    ],
+    [
+      0.0,
+      0.13800000000000004,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.19780000000000003,
+      0.0
+    ],
+    [
+      0.23,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.26680000000000004,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.22080000000000002,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.24840000000000004,
+      0.0,
+      0.0
+    ],
+    [
+      0.1748,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.28520000000000006,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.19780000000000003,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.12650000000000003
+    ],
+    [
+      0.0,
+      0.09660000000000002,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.10580000000000002,
+      0.0
+    ],
+    [
+      0.25760000000000005,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.1564,
+      0.0
+    ]
+  ],
+  "priority_weights": [
+    [
+      0.23,
+      0.0,
+      0.0
+    ],
+    [
+      0.07360000000000001,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.1012,
+      0.0
+    ],
+    [
+      0.08280000000000003,
+      0.0,
+      0.0
+    ],
+    [
+      0.11040000000000001,
+      0.0,
+      0.0
+    ],
+    [
+      0.09200000000000003,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.11960000000000001,
+      0.0
+    ],
+    [
+      0.08280000000000001,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.11960000000000001,
+      0.0
+    ],
+    [
+      0.1104,
+      0.0,
+      0.0
+    ],
+    [
+      0.09200000000000001,
+      0.0,
+      0.0
+    ],
+    [
+      0.046000000000000006,
+      0.0,
+      0.0
+    ],
+    [
+      0.055200000000000006,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.11960000000000001,
+      0.0
+    ],
+    [
+      0.0828,
+      0.0,
+      0.0
+    ]
+  ],
+  "history": [
+    {
+      "task": "Coding",
+      "time": "Pagi (05-12)",
+      "duration": 240,
+      "energy": 10,
+      "difficulty": 10,
+      "deadline": 2,
+      "importance": 5,
+      "effort": 5,
+      "timestamp": "2026-06-18 13:22:30"
+    },
+    {
+      "task": "Meeting",
+      "time": "Siang (12-17)",
+      "duration": 60,
+      "energy": 6,
+      "difficulty": 3,
+      "deadline": 1,
+      "importance": 5,
+      "effort": 2,
+      "timestamp": "2026-06-18 14:30:00"
+    },
+    {
+      "task": "Documentation",
+      "time": "Sore (17-21)",
+      "duration": 90,
+      "energy": 5,
+      "difficulty": 4,
+      "deadline": 5,
+      "importance": 3,
+      "effort": 3,
+      "timestamp": "2026-06-18 17:45:00"
+    },
+    {
+      "task": "Code Review",
+      "time": "Pagi (05-12)",
+      "duration": 120,
+      "energy": 8,
+      "difficulty": 6,
+      "deadline": 1,
+      "importance": 4,
+      "effort": 4,
+      "timestamp": "2026-06-18 09:00:00"
+    },
+    {
+      "task": "Research",
+      "time": "Pagi (05-12)",
+      "duration": 180,
+      "energy": 9,
+      "difficulty": 7,
+      "deadline": 3,
+      "importance": 4,
+      "effort": 5,
+      "timestamp": "2026-06-18 08:15:00"
+    },
+    {
+      "task": "Testing",
+      "time": "Siang (12-17)",
+      "duration": 150,
+      "energy": 7,
+      "difficulty": 5,
+      "deadline": 2,
+      "importance": 4,
+      "effort": 4,
+      "timestamp": "2026-06-18 13:00:00"
+    },
+    {
+      "task": "Design",
+      "time": "Siang (12-17)",
+      "duration": 180,
+      "energy": 7,
+      "difficulty": 6,
+      "deadline": 4,
+      "importance": 4,
+      "effort": 5,
+      "timestamp": "2026-06-18 14:00:00"
+    },
+    {
+      "task": "Planning",
+      "time": "Pagi (05-12)",
+      "duration": 60,
+      "energy": 8,
+      "difficulty": 4,
+      "deadline": 2,
+      "importance": 4,
+      "effort": 3,
+      "timestamp": "2026-06-18 07:30:00"
+    },
+    {
+      "task": "Learning",
+      "time": "Pagi (05-12)",
+      "duration": 120,
+      "energy": 9,
+      "difficulty": 5,
+      "deadline": 7,
+      "importance": 3,
+      "effort": 3,
+      "timestamp": "2026-06-18 10:00:00"
+    },
+    {
+      "task": "Bug Fixing",
+      "time": "Siang (12-17)",
+      "duration": 90,
+      "energy": 6,
+      "difficulty": 7,
+      "deadline": 1,
+      "importance": 5,
+      "effort": 6,
+      "timestamp": "2026-06-18 15:00:00"
+    },
+    {
+      "task": "Deployment",
+      "time": "Malam (21-05)",
+      "duration": 45,
+      "energy": 4,
+      "difficulty": 5,
+      "deadline": 1,
+      "importance": 5,
+      "effort": 4,
+      "timestamp": "2026-06-18 22:00:00"
+    },
+    {
+      "task": "Communication",
+      "time": "Siang (12-17)",
+      "duration": 30,
+      "energy": 5,
+      "difficulty": 2,
+      "deadline": 1,
+      "importance": 3,
+      "effort": 1,
+      "timestamp": "2026-06-18 16:00:00"
+    },
+    {
+      "task": "Admin Tasks",
+      "time": "Sore (17-21)",
+      "duration": 30,
+      "energy": 4,
+      "difficulty": 2,
+      "deadline": 3,
+      "importance": 2,
+      "effort": 1,
+      "timestamp": "2026-06-18 18:00:00"
+    },
+    {
+      "task": "Data Analysis",
+      "time": "Pagi (05-12)",
+      "duration": 150,
+      "energy": 8,
+      "difficulty": 6,
+      "deadline": 4,
+      "importance": 4,
+      "effort": 5,
+      "timestamp": "2026-06-18 08:00:00"
+    },
+    {
+      "task": "Writing",
+      "time": "Sore (17-21)",
+      "duration": 60,
+      "energy": 5,
+      "difficulty": 4,
+      "deadline": 3,
+      "importance": 3,
+      "effort": 3,
+      "timestamp": "2026-06-18 19:00:00"
+    },
+    {
+      "task": "Coding",
+      "time": "Malam (21-05)",
+      "duration": 120,
+      "energy": 5,
+      "difficulty": 8,
+      "deadline": 2,
+      "importance": 5,
+      "effort": 6,
+      "timestamp": "2026-06-18 23:00:00"
+    }
+  ]
+}
