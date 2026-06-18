@@ -8,16 +8,11 @@ import numpy as np
 import pandas as pd
 
 from config.config import TIMES, PRIORITY_LEVELS, STATE_FILE
-from services.brain import save_state, plot_som_grid
+from services.brain import save_state, plot_som_grid, plot_som_priority_heatmap
 
-
-# ============================
-# SIDEBAR COMPONENTS
-# ============================
 
 def render_sidebar(brain):
     """Render sidebar dengan input task dan aktivitas."""
-    # --- Tambah Task Baru ---
     st.sidebar.header("Tambah Task Baru")
 
     new_task = st.sidebar.text_input("Nama Task")
@@ -35,78 +30,33 @@ def render_sidebar(brain):
             save_state()
             st.sidebar.success(f"Task '{cleaned_task}' ditambahkan.")
 
-    # --- Input Aktivitas ---
     st.sidebar.header("Input Aktivitas")
 
-    selected_task = st.sidebar.selectbox(
-        "Jenis Task",
-        st.session_state.tasks
-    )
+    selected_task = st.sidebar.selectbox("Jenis Task", st.session_state.tasks)
+    selected_time = st.sidebar.selectbox("Waktu", TIMES)
+    focus_duration = st.sidebar.slider("Durasi Fokus (menit)", 10, 240, 60, 10)
+    energy_level = st.sidebar.slider("Level Energi", 1, 10, 5)
+    difficulty_level = st.sidebar.slider("Tingkat Kesulitan", 1, 10, 5)
 
-    selected_time = st.sidebar.selectbox(
-        "Waktu",
-        TIMES
-    )
-
-    focus_duration = st.sidebar.slider(
-        "Durasi Fokus (menit)",
-        10, 240, 60, 10
-    )
-
-    energy_level = st.sidebar.slider(
-        "Level Energi",
-        1, 10, 5
-    )
-
-    difficulty_level = st.sidebar.slider(
-        "Tingkat Kesulitan",
-        1, 10, 5
-    )
-
-    # --- Priority-related inputs ---
     st.sidebar.markdown("---")
     st.sidebar.subheader("Prioritas Task")
 
-    importance_level = st.sidebar.slider(
-        "Tingkat Importance (1-10)",
-        1, 10, 5,
-        help="Seberapa penting task ini? (10 = sangat penting)"
-    )
+    importance_level = st.sidebar.slider("Tingkat Importance (1-10)", 1, 10, 5,
+        help="Seberapa penting task ini? (10 = sangat penting)")
+    effort_level = st.sidebar.slider("Tingkat Effort (1-10)", 1, 10, 5,
+        help="Seberapa sulit effort yang dibutuhkan? (10 = effort tinggi)")
+    deadline_score = st.sidebar.slider("Tingkat Urgency/Deadline (1-10)", 1, 10, 5,
+        help="Seberapa urgent task ini? (10 = sangat urgent)")
 
-    effort_level = st.sidebar.slider(
-        "Tingkat Effort (1-10)",
-        1, 10, 5,
-        help="Seberapa sulit effort yang dibutuhkan? (10 = effort tinggi)"
-    )
-
-    deadline_score = st.sidebar.slider(
-        "Tingkat Urgency/Deadline (1-10)",
-        1, 10, 5,
-        help="Seberapa urgent task ini? (10 = sangat urgent)"
-    )
-
-    # --- Simpan Aktivitas ---
     if st.sidebar.button("Simpan Aktivitas"):
         task_idx = st.session_state.tasks.index(selected_task)
         time_idx = TIMES.index(selected_time)
 
-        brain.learn(
-            task_idx,
-            time_idx,
-            focus_duration,
-            energy_level,
-            difficulty_level,
-            deadline_score,
-            importance_level,
-            effort_level
-        )
+        brain.learn(task_idx, time_idx, focus_duration, energy_level,
+            difficulty_level, deadline_score, importance_level, effort_level)
 
         st.sidebar.success("AI memory diperbarui.")
 
-
-# ============================
-# TAB 1: PRIORITY RANKING
-# ============================
 
 def render_priority_tab(brain):
     """Render tab prioritas dengan ranking task."""
@@ -115,7 +65,6 @@ def render_priority_tab(brain):
     rankings = brain.get_priority_ranking()
 
     if rankings:
-        # Tampilkan ranking dengan visual
         priority_icons = {"High": "🔴", "Medium": "🟡", "Low": "🟢"}
 
         for rank, item in enumerate(rankings, 1):
@@ -134,7 +83,6 @@ def render_priority_tab(brain):
 
             st.divider()
 
-        # Tampilkan dataframe ranking
         st.markdown("### Detail Ranking")
         df_ranking = pd.DataFrame(rankings)
         st.dataframe(df_ranking, use_container_width=True)
@@ -142,15 +90,10 @@ def render_priority_tab(brain):
         st.info("Belum ada data untuk ranking prioritas.")
 
 
-# ============================
-# TAB 2: TIME RECOMMENDATION
-# ============================
-
 def render_time_tab(brain):
     """Render tab rekomendasi waktu dan weight matrix."""
     col1, col2 = st.columns(2)
 
-    # Weight Matrix - Waktu
     with col1:
         st.subheader("Hebbian Weight Matrix (Waktu)")
 
@@ -160,33 +103,17 @@ def render_time_tab(brain):
                 index=st.session_state.tasks,
                 columns=TIMES
             )
-            st.dataframe(
-                df_time_weights.style.background_gradient(
-                    cmap="Greens",
-                    axis=None
-                )
-            )
+            st.dataframe(df_time_weights.style.background_gradient(cmap="Greens", axis=None))
         else:
             st.info("Belum ada data.")
 
-    # Recommendation - Waktu
     with col2:
         st.subheader("Rekomendasi Waktu")
 
-        target_task = st.selectbox(
-            "Pilih Task",
-            st.session_state.tasks,
-            key="time_task_select"
-        )
+        target_task = st.selectbox("Pilih Task", st.session_state.tasks, key="time_task_select")
 
-        best_time, time_score = brain.recommend_time(
-            st.session_state.tasks.index(target_task)
-        )
-
-        # Priority recommendation
-        priority, priority_score = brain.recommend_priority(
-            st.session_state.tasks.index(target_task)
-        )
+        best_time, time_score = brain.recommend_time(st.session_state.tasks.index(target_task))
+        priority, priority_score = brain.recommend_priority(st.session_state.tasks.index(target_task))
 
         if best_time:
             st.success(f"Waktu terbaik: {best_time}")
@@ -204,10 +131,6 @@ def render_time_tab(brain):
             st.warning("Belum ada pembelajaran.")
 
 
-# ============================
-# TAB 3: SOM VISUALIZATION
-# ============================
-
 def render_som_tab(brain):
     """Render tab visualisasi SOM."""
     col1, col2 = st.columns(2)
@@ -217,7 +140,7 @@ def render_som_tab(brain):
         st.subheader("SOM Grid - Pola Waktu")
 
         if len(st.session_state.history) >= 4:
-            df_time, som_time, X_scaled_time = brain.run_som_time()
+            df_time, som_time, X_scaled_time, _ = brain.run_som_time()
 
             if df_time is not None:
                 fig = plot_som_grid(
@@ -235,54 +158,97 @@ def render_som_tab(brain):
         st.subheader("SOM Grid - Pola Prioritas")
 
         if len(st.session_state.history) >= 4:
-            df_priority, som_priority, X_scaled_priority, cluster_map = brain.run_som_priority()
+            df_priority, som_priority, X_scaled_priority, cluster_debug_info = brain.run_som_priority()
 
             if df_priority is not None:
-                fig = plot_som_grid(
+                fig = plot_som_priority_heatmap(
                     som_priority, X_scaled_priority,
-                    st.session_state.tasks, df_priority,
-                    color_by="priority",
+                    df_priority, cluster_debug_info,
                     title="SOM Grid - Cluster Prioritas"
                 )
                 st.pyplot(fig)
         else:
             st.info("Minimal 4 aktivitas diperlukan.")
 
-    # Interpretasi Cluster
-    st.subheader("Interpretasi Cluster Prioritas")
+    # DEBUG TABLE
+    st.markdown("---")
+    st.subheader("Debug: Cluster Priority Info")
 
-    if len(st.session_state.clusters_priority) > 0:
-        cluster_df = st.session_state.clusters_priority
+    if len(st.session_state.history) >= 4:
+        if st.session_state.clusters_priority.empty:
+            brain.run_som_priority()
 
-        for cluster_id in sorted(cluster_df["priority_cluster"].unique()):
-            subset = cluster_df[cluster_df["priority_cluster"] == cluster_id]
+        debug_df = brain.get_cluster_debug_df()
 
-            dominant_task = subset["task"].mode()[0]
-            priority_label = subset["priority_label"].mode()[0]
-            avg_deadline = subset["deadline"].mean()
-            avg_importance = subset["importance"].mean()
-            avg_effort = subset["effort"].mean()
+        debug_valid = (
+            debug_df is not None and
+            hasattr(st.session_state, 'cluster_debug_info') and
+            isinstance(st.session_state.cluster_debug_info, dict)
+        )
 
-            priority_emoji = {"High": "🔴", "Medium": "🟡", "Low": "🟢"}
-            emoji = priority_emoji.get(priority_label, "⚪")
+        if debug_valid:
+            # Statistik
+            st.markdown("### Statistik Cluster")
+            c1, c2, c3, c4 = st.columns(4)
+            with c1:
+                st.metric("Total", len(debug_df))
+            with c2:
+                occupied = len(debug_df[debug_df['Samples'] > 0])
+                st.metric("Terisi", occupied)
+            with c3:
+                empty = len(debug_df[debug_df['Samples'] == 0])
+                st.metric("Kosong", empty)
+            with c4:
+                h = len(debug_df[debug_df['Label'] == 'High'])
+                m = len(debug_df[debug_df['Label'] == 'Medium'])
+                l = len(debug_df[debug_df['Label'] == 'Low'])
+                st.metric("Labels", f"H:{h} M:{m} L:{l}")
 
-            st.markdown(f"""
-            ### Cluster {cluster_id}: {emoji} {priority_label}
+            # Debug Table
+            st.markdown("### Debug Table - Semua Cluster")
+            st.dataframe(debug_df, use_container_width=True, height=400)
 
-            | Metrik | Nilai |
-            |--------|-------|
-            | Task Dominan | {dominant_task} |
-            | Avg Urgency | {avg_deadline:.1f} |
-            | Avg Importance | {avg_importance:.1f} |
-            | Avg Effort | {avg_effort:.1f} |
-            """)
+            # Interpretasi Cluster
+            st.markdown("### Interpretasi Cluster Prioritas")
+            occupied_df = debug_df[debug_df['Samples'] > 0]
+
+            icons = {"High": "🔴", "Medium": "🟡", "Low": "🟢"}
+
+            for _, row in occupied_df.iterrows():
+                cid = row['Cluster']
+                label = row['Label']
+                score = row['Score']
+                dominant = row['Dominant Task']
+                emoji = icons.get(label, "⚪")
+
+                info = st.session_state.cluster_debug_info.get(cid, {})
+                deadline = info.get('avg_deadline', 0)
+                importance = info.get('avg_importance', 0)
+                effort = info.get('avg_effort', 0)
+
+                st.markdown(f"**Cluster {cid}:** {emoji} **{label}** (Score: {score})")
+
+                col_a, col_b = st.columns(2)
+                with col_a:
+                    st.write(f"Samples: {row['Samples']}")
+                    st.write(f"Coordinate: ({row['X']}, {row['Y']})")
+                    st.write(f"Dominant Task: {dominant}")
+                with col_b:
+                    st.write(f"Avg Deadline: {deadline:.1f}")
+                    st.write(f"Avg Importance: {importance:.1f}")
+                    st.write(f"Avg Effort: {effort:.1f}")
+
+                cluster_data = st.session_state.clusters_priority[
+                    st.session_state.clusters_priority['priority_cluster'] == cid
+                ][["task", "deadline", "importance", "effort"]]
+
+                with st.expander(f"Lihat data di Cluster {cid}"):
+                    st.dataframe(cluster_data, use_container_width=True)
+
+                st.divider()
     else:
-        st.warning("Belum cukup data untuk clustering.")
+        st.info("Minimal 4 aktivitas diperlukan.")
 
-
-# ============================
-# TAB 4: HISTORY
-# ============================
 
 def render_history_tab(brain):
     """Render tab histori aktivitas."""
@@ -292,20 +258,16 @@ def render_history_tab(brain):
         history_df = pd.DataFrame(st.session_state.history)
         st.dataframe(history_df, use_container_width=True)
 
-        # Tampilkan statistik
         st.markdown("### Statistik")
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
             st.metric("Total Aktivitas", len(st.session_state.history))
-
         with col2:
             st.metric("Total Task", len(st.session_state.tasks))
-
         with col3:
             avg_energy = np.mean([h["energy"] for h in st.session_state.history])
             st.metric("Avg Energi", f"{avg_energy:.1f}")
-
         with col4:
             avg_deadline = np.mean([h["deadline"] for h in st.session_state.history])
             st.metric("Avg Urgency", f"{avg_deadline:.1f}")
@@ -313,34 +275,22 @@ def render_history_tab(brain):
         st.info("Belum ada histori.")
 
 
-# ============================
-# TASK MANAGEMENT
-# ============================
-
 def render_task_management(brain):
-    """Render section manajemen task (hapus task, priority matrix)."""
+    """Render section manajemen task."""
     st.subheader("Manajemen Task")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        task_to_delete = st.selectbox(
-            "Hapus Task",
-            st.session_state.tasks,
-            key="delete_task_select"
-        )
+        task_to_delete = st.selectbox("Hapus Task", st.session_state.tasks, key="delete_task_select")
 
         if st.button("Hapus Task", key="delete_task_btn"):
             idx = st.session_state.tasks.index(task_to_delete)
             st.session_state.tasks.pop(idx)
 
             if len(st.session_state.tasks) > 0:
-                st.session_state.time_weights = np.delete(
-                    st.session_state.time_weights, idx, axis=0
-                )
-                st.session_state.priority_weights = np.delete(
-                    st.session_state.priority_weights, idx, axis=0
-                )
+                st.session_state.time_weights = np.delete(st.session_state.time_weights, idx, axis=0)
+                st.session_state.priority_weights = np.delete(st.session_state.priority_weights, idx, axis=0)
             else:
                 st.session_state.time_weights = np.zeros((0, 4))
                 st.session_state.priority_weights = np.zeros((0, 3))
@@ -359,9 +309,6 @@ def render_task_management(brain):
                 columns=PRIORITY_LEVELS
             )
             st.dataframe(
-                df_priority_weights.style.background_gradient(
-                    cmap="Oranges",
-                    axis=None
-                ),
+                df_priority_weights.style.background_gradient(cmap="Oranges", axis=None),
                 use_container_width=True
             )
