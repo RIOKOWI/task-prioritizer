@@ -452,11 +452,49 @@ class HybridBrain:
 # ============================
 
 def plot_som_grid(som, X_scaled, labels, clusters_df, color_by="task", title="SOM Grid"):
-    """Plot SOM Grid 2D dengan U-Matrix."""
-    fig, ax = plt.subplots(figsize=(8, 8))
+    """Plot SOM Grid 2D dengan U-Matrix dan nomor cluster di setiap kotak."""
+    fig, ax = plt.subplots(figsize=(12, 10))
 
     umatrix = som.distance_map()
-    im = ax.pcolor(umatrix.T, cmap='Blues_r')
+    im = ax.pcolor(umatrix, cmap='Blues_r')
+
+    # Identifikasi kotak yang terisi data
+    grid_size = umatrix.shape[0]
+    occupied_clusters = set()
+    for x in X_scaled:
+        bmu = som.winner(x)
+        # cluster_num = x * 5 + y
+        cluster_num = bmu[0] * grid_size + bmu[1]
+        occupied_clusters.add(cluster_num)
+
+    # Tambah nomor cluster dan indikasi kosong/terisi di setiap kotak
+    # Perbaiki: iterate (col, row) agar sesuai dengan cluster_num = col * 5 + row
+    for col in range(grid_size):
+        for row in range(grid_size):
+            cluster_num = col * grid_size + row
+            is_occupied = cluster_num in occupied_clusters
+
+            # Tentukan warna teks berdasarkan status
+            text_color = 'white' if not is_occupied else 'black'
+            fontweight = 'normal' if not is_occupied else 'bold'
+
+            # Posisi teks: x=col, y=row (sesuai dengan pcolor tanpa transpose)
+            ax.text(
+                col + 0.5, row + 0.5,
+                str(cluster_num),
+                ha='center', va='center',
+                fontsize=10, fontweight=fontweight,
+                color=text_color
+            )
+
+            # Tambah border merah untuk kotak kosong (tidak ada data)
+            if not is_occupied:
+                rect = plt.Rectangle(
+                    (col, row), 1, 1,
+                    fill=False, edgecolor='red',
+                    linewidth=2, linestyle='--'
+                )
+                ax.add_patch(rect)
 
     # Buat warna
     if color_by == "task":
@@ -502,10 +540,17 @@ def plot_som_grid(som, X_scaled, labels, clusters_df, color_by="task", title="SO
                     markeredgecolor='black',
                     label=priority + " Priority")
 
+    # Legend untuk kotak kosong
+    ax.plot([], [], '--', color='red', linewidth=2, label='Kosong (tidak ada data)')
+
     ax.legend(loc='upper left', bbox_to_anchor=(1.05, 1))
     ax.set_title(title)
-    ax.set_xlabel("SOM X")
-    ax.set_ylabel("SOM Y")
+    ax.set_xlabel("SOM X (Column)")
+    ax.set_ylabel("SOM Y (Row)")
+    ax.set_xlim(0, grid_size)
+    ax.set_ylim(0, grid_size)
+    ax.set_aspect('equal')
+    ax.invert_yaxis()  # Supaya row 0 di atas
     plt.colorbar(im, ax=ax, label="Jarak (U-Matrix)")
 
     return fig
