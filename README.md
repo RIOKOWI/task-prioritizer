@@ -1,4 +1,4 @@
-# Kohonen SOM + Hebbian Task Prioritizer
+# Kohonen SOM + Hebbian Task Prioritizer & Time Recommend Productivity
 
 Sistem Task Prioritizer yang menggunakan kombinasi Kohonen Self-Organizing Map (SOM) dan Hebbian Learning untuk mempelajari pola produktivitas dan prioritas pengguna.
 
