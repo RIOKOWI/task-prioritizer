@@ -26,7 +26,6 @@ task-prioritizer/
 |-- app.py                    # File utama aplikasi Streamlit
 |-- requirements.txt           # Daftar dependencies
 |-- README.md                 # Dokumentasi project
-|-- CLAUDE.md                 # Project instructions
 |-- config/
 |   |-- __init__.py
 |   |-- config.py             # Konstanta (TIMES, PRIORITY_LEVELS, STATE_FILE)
@@ -37,7 +36,6 @@ task-prioritizer/
 |-- widgets/
 |   |-- __init__.py
 |   |-- components.py         # Streamlit UI components
-|-- docs/                     # Dokumentasi tambahan
 ```
 
 ### Penjelasan Struktur
@@ -114,27 +112,27 @@ Aplikasi akan terbuka di browser pada URL default `http://localhost:8501`.
 │  1. Tambah Task ──> Input nama task ──> Validasi            │
 │                          │                                  │
 │                          v                                  │
-│  2. Input Aktivitas ──> Pilih task, waktu, energi,         │
-│     (4 Tab)             difficulty, deadline, durasi,        │
+│  2. Input Aktivitas ──> Pilih task, waktu, energi,          │
+│     (4 Tab)             difficulty, deadline, durasi,       │
 │                         importance, effort                  │
 │                          │                                  │
 │                          v                                  │
 │  3. Simpan Aktivitas ──> Trigger Hebbian Learning           │
 │                          │                                  │
 │                          v                                  │
-│  ┌───────────────────────────────────────────────────┐      │
-│  │              HYBRID BRAIN CLASS                   │      │
-│  │                                                   │      │
-│  │  ┌──────────────────┐  ┌──────────────────────┐   │      │
-│  │  │ Hebbian Learning │  │  SOM Clustering      │   │      │
-│  │  │                  │  │                      │   │      │
-│  │  │ - Time Weights   │  │ - Time SOM (5x5)     │   │      │
-│  │  │ - Priority Weights│  │ - Priority SOM (5x5) │   │      │
-│  │  │                  │  │                      │   │      │
-│  │  │ Formula:         │  │  MiniSOM 5x5 grid    │   │      │
-│  │  │ w += lr * x * y  │  │  dengan U-Matrix     │   │      │
-│  │  └──────────────────┘  └──────────────────────┘   │      │
-│  └───────────────────────────────────────────────────┘      │
+│  ┌────────────────────────────────────────────────────┐     │
+│  │              HYBRID BRAIN CLASS                    │     │
+│  │                                                    │     │
+│  │  ┌───────────────────┐  ┌──────────────────────┐   │     │
+│  │  │ Hebbian Learning  │  │  SOM Clustering      │   │     │
+│  │  │                   │  │                      │   │     │
+│  │  │ - Time Weights    │  │ - Time SOM (5x5)     │   │     │
+│  │  │ - Priority Weights│  │ - Priority SOM (5x5) │   │     │
+│  │  │                   │  │                      │   │     │
+│  │  │ Formula:          │  │  MiniSOM 5x5 grid    │   │     │
+│  │  │ w += lr * x * y   │  │  dengan U-Matrix     │   │     │
+│  │  └───────────────────┘  └──────────────────────┘   │     │
+│  └────────────────────────────────────────────────────┘     │
 │                          │                                  │
 │                          v                                  │
 │  4. State Persistence ──> Simpan ke app_state.json          │
